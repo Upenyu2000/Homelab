@@ -1,0 +1,21 @@
+title: Multiple Windows Logon Failures from One Source
+id: 6e36e984-df99-45ff-a7a7-7f3dbd61225e
+status: experimental
+description: Detects a burst of failed Windows logons suitable for SIEM thresholding.
+author: Upenyu Hlangabeza
+date: 2026-07-18
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+  timeframe: 5m
+  condition: selection | count() by IpAddress > 10
+falsepositives:
+  - Misconfigured services
+  - Expired cached credentials
+level: medium
+tags:
+  - attack.credential_access
+  - attack.t1110
